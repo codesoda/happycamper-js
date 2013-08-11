@@ -1,8 +1,15 @@
+var UserProvider = require('../userprovider').UserProvider;
+var userProvider = new UserProvider("localhost", 27017);
 
-/*
- * GET users listing.
- */
+module.exports = function(app) { 
 
-exports.list = function(req, res){
-  res.send("respond with a resource");
+  /*
+   * GET users listing.
+   */
+  app.get('/users', function(req, res){
+    userProvider.findAll(function(err, users){
+      res.send(users);
+    });
+  });
+
 };

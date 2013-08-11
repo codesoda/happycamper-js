@@ -1,0 +1,20 @@
+
+// Custom Sass Functions
+// by Rowan Hogan
+// :)
+
+dull(color, amount = 10%) {
+  desaturate(darken(color, amount), amount)
+}
+
+deepen(color, amount = 10%) {
+  saturate(darken(color, amount), amount)
+}
+
+brighten(color, amount = 10%) {
+  saturate(lighten(color, amount), amount)
+}
+
+fade(color, amount = 10%) {
+  desaturate(lighten(color, amount), amount)
+}

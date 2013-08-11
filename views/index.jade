@@ -1,5 +1,142 @@
 extends layout
 
+block javascript
+  script(src='/javascripts/application.js', type='text/javascript')
+
 block content
-  h1= title
-  p Welcome to #{title}
+  #container.container.checkins
+    .sidebar
+      a.nav-checkins(href='#checkins')
+        i.icon-fire
+      a.nav-places(href='#places')
+        i.icon-sign
+      a.nav-users(href='#users')
+        i.icon-users
+      a.show-checkin.nav-checkin(href='#')
+        i.icon-checkin
+    #content-wrapper
+      #content
+    #checkmein
+      form#new_checkin.new_checkin(accept-charset='UTF-8', action='/checkins', method='post')
+        .form-row
+          textarea#checkin_description(cols='40', name='description', rows='20')
+        #location-options.form-row
+          select#checkin_place_id.active(name='place_id')
+            option(value='') Where are you?
+            - for (var i=0; i<places.length;i++)
+              option(value='#{places[i]._id}')= places[i].name
+            option(value='') --- Other
+          input#place_name(name='place_name', placeholder='Enter new location...', type='text', value='')
+        .form-submit
+          input(name='commit', type='submit', value='Checkin')
+          a.close-checkin.button(href='#') Cancel
+
+  script#tpl-checkin-view(type='text/template')
+    <p>
+    <a href="#users/<%= user.handle %>" class="user-link">@<%= user.handle %></a>
+    <% if (place) { %> at <a href="#places/<%= place._id %>" class="place-link"><%= place.name %></a><% } %>
+    </p>
+    <% if (description) { %>
+    <p class='desc'><%= linkify(description) %></p>
+    <% } %>
+    <time datetime="<%= created_at %>" class="timeago"><%= created_at %></time>
+    <span><a href="#" class="unlike">Unlike</a></span>
+    <span><a href="#" class="like">Like</a></span>
+
+  script#tpl-place-view(type='text/template')
+    <a href="#places/<%= id %>"><%= name %>
+    </a>
+    <span class='checkins_count'><%= checkins_count || 0 %></span>
+  script#tpl-top-places-view(type='text/template')
+    <h1>Happiest Places</h1>
+    <div class='top-places'>
+    <% _.each(models, function(place) { %>
+    <div class='place-item'>
+    <a href="#places/<%= place.get('id') %>"><span class='place_list_checkins_count checkins_count'>
+    <i class='icon-checkin'></i>
+    <%= place.get('checkins_count') || 0 %>
+    </span>
+    <span class='name'><%= place.get('name') %></span>
+    </a>
+    </div>
+    <% }) %>
+    </div>
+
+  script#tpl-user-view(type='text/template')
+    <a href="#users/<%= handle %>">@<%= handle %></a>
+    <span class='checkins_count'><%= checkins_count || 0 %></span>
+
+  script#tpl-top-users-view(type='text/template')
+    <h1>Happiest Campers</h1>
+    <div class='top-users'>
+    <% _.each(models, function(user) { %>
+    <div class='user-item'>
+    <a href="#users/<%= user.get('handle') %>"><span class='user_list_checkins_count checkins_count'>
+    <i class='icon-checkin'></i>
+    <%= user.get('checkins_count') || 0 %>
+    </span>
+    <span class='handle'>@<%= user.get('handle') %></span>
+    </a>
+    </div>
+    <% }) %>
+    </div>
+
+  script#tpl-user-show-view(type='text/template')
+    <h1>
+    <%= handle %>
+    </h1>
+    <div class='checkins_count' id='user_checkins_count'>
+    <i class='icon-checkin'></i>
+    <%= checkins_count || 0 %>
+    </div>
+    <div class='user-checkins'>
+    <% _.each(checkins, function(checkin) { %>
+    <div class='checkin-item user-list-checkin'>
+    <% if (checkin.place || checkin.user_id != id) { %>
+    <p>
+    <% if (checkin.user_id != id) { %>
+    Mentioned by
+    <a href="#users/<%= checkin.user.handle %>">@<%= checkin.user.handle %></a>
+    <% } %>
+    <% if (checkin.place) { %> at <a href="#places/<%= checkin.place_id %>" class="place-link"><%= checkin.place.name %></a><% } %>
+    </p>
+    <% } %>
+    <% if (checkin.description) { %>
+    <p class='desc'>
+    <%= linkify(checkin.description) %>
+    </p>
+    <% } %>
+    <p>
+    <i class="icon-clock"></i>
+    <time datetime="<%= checkin.created_at %>" class="timeago"><%= checkin.created_at %></time>
+    </p>
+    </div>
+    <% }) %>
+    </div>
+
+  script#tpl-place-show-view(type='text/template')
+    <h1><%= name %></h1>
+    <div class='checkins_count' id='place_checkins_count'>
+    <i class='icon-checkin'></i>
+    <%= checkins_count || 0 %>
+    </div>
+    <div class='place-checkins'>
+    <% _.each(checkins, function(checkin) { %>
+    <div class='checkin-item'>
+    <p>
+    <a href="#users/<%= checkin.user.handle %>" class="user-link">@<%= checkin.user.handle %></a>
+    <time datetime="<%= checkin.created_at %>" class="timeago"><%= checkin.created_at %></time>
+    </p>
+    <% if (checkin.description) { %>
+    <p class='desc'>
+    <%= linkify(checkin.description) %>
+    </p>
+    <% } %>
+    </div>
+    <% }) %>
+    </div>
+
+  script
+    var Happy = {
+      Camper: { id: '#{user._id}' }
+    };

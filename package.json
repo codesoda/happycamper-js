@@ -1,5 +1,5 @@
 {
-  "name": "application-name",
+  "name": "HappyCamper",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -8,6 +8,8 @@
   "dependencies": {
     "express": "3.3.4",
     "jade": "*",
-    "stylus": "*"
+    "stylus": "*",
+    "async": "*",
+    "mongodb": ">= 0.9.6-7"
   }
 }

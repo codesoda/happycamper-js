@@ -1,0 +1,9 @@
+.user_list_checkins_count,
+.place_list_checkins_count {
+  float: right;
+}
+.user_list_checkins_count .icon-checkin,
+.place_list_checkins_count .icon-checkin {
+  position: relative;
+  top: 1px;
+}

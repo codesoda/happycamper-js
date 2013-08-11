@@ -1,7 +1,44 @@
-doctype 5
+!!! 5
 html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
+head
+    title HappyCamper
+    meta(content='width=device-width, initial-scale=1, user-scalable=no', name='viewport')
+    meta(content='yes', name='apple-mobile-web-app-capable')
+    meta(content='white', name='apple-mobile-web-app-status-bar-style')
+    link(href='/images/splash.png', rel='apple-touch-startup-image')
+    link(href='/images/favicon.ico', rel='shortcut icon')
+    link(href='/images/apple-touch-icon.png', rel='apple-touch-icon-precomposed')
+    link(href='/images/apple-touch-icon-57x57.png', rel='apple-touch-icon-precomposed', sizes='57x57')
+    link(href='/images/apple-touch-icon-72x72.png', rel='apple-touch-icon-precomposed', sizes='72x72')
+    link(href='/images/apple-touch-icon-114x114.png', rel='apple-touch-icon-precomposed', sizes='114x114')
+    link(href='/images/apple-touch-icon-144x144.png', rel='apple-touch-icon-precomposed', sizes='144x144')
+    link(href='/stylesheets/application.css', media='all', rel='stylesheet', type='text/css')
+    link(href='/stylesheets/_functions.css', media='all', rel='stylesheet', type='text/css')
+    link(href='/stylesheets/_icons.css', media='all', rel='stylesheet', type='text/css')
+    link(href='/stylesheets/add2home.css', media='all', rel='stylesheet', type='text/css')
+    link(href='/stylesheets/base.css', media='all', rel='stylesheet', type='text/css')
+    link(href='/stylesheets/checkins.css', media='all', rel='stylesheet', type='text/css')
+    link(href='/stylesheets/layout.css', media='all', rel='stylesheet', type='text/css')
+    link(href='/stylesheets/places.css', media='all', rel='stylesheet', type='text/css')
+    link(href='/stylesheets/sessions.css', media='all', rel='stylesheet', type='text/css')
+    link(href='/stylesheets/style.css', media='all', rel='stylesheet', type='text/css')
+    link(href='/stylesheets/users.css', media='all', rel='stylesheet', type='text/css')
+  body(class=user ? 'checkins' : 'sessions')
     block content
+
+    script
+      var addToHomeConfig = {
+        startDelay: 500,
+        touchIcon: true,
+        lifespan: 10000
+      }
+    script(src='/javascripts/jquery.js', type='text/javascript')
+    script(src='/javascripts/jquery_ujs.js', type='text/javascript')
+    script(src='/javascripts/add2home.js', type='text/javascript')
+    script(src='/javascripts/underscore-min.js', type='text/javascript')
+    script(src='/javascripts/backbone-min.js', type='text/javascript')
+    script(src='/javascripts/jquery.timeago.js', type='text/javascript')
+    script(src='/javascripts/router.js', type='text/javascript')
+    script(src='/javascripts/tabs.js', type='text/javascript')
+    script(src='/javascripts/templater.js', type='text/javascript')
+    block javascript
