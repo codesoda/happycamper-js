@@ -1,7 +1,6 @@
 var Auth = require('../auth').Auth,
     auth = new Auth(),
-    UserProvider = require('../userprovider').UserProvider,
-    userProvider = new UserProvider("localhost", 27017);
+    User = require('../userprovider').User,
     PlaceProvider = require('../placeprovider').PlaceProvider,
     placeProvider = new PlaceProvider("localhost", 27017),
     async = require('async');
@@ -17,7 +16,7 @@ module.exports = function(app) {
 
       async.parallel([
         function(callback) {
-          userProvider.findById(userId, function(err, user) {
+          User.findById(userId, function(err, user) {
             callback(err, user);
           });
         },

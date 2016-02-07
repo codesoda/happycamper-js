@@ -1,3 +1,14 @@
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/happycamper');
+
+var userSchema = mongoose.Schema({
+  name: String
+});
+
+var User = mongoose.model('User', userSchema);
+exports.User = User;
+
+/*
 var Db = require('mongodb').Db;
 var Connection = require('mongodb').Connection;
 var Server = require('mongodb').Server;
@@ -91,3 +102,4 @@ userProvider.prototype.update = function(userId, users, callback) {
 };
 
 exports.UserProvider = userProvider;
+*/

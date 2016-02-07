@@ -10,6 +10,6 @@
     "jade": "*",
     "stylus": "*",
     "async": "*",
-    "mongodb": ">= 0.9.6-7"
+    "mongoose": "*"
   }
 }
